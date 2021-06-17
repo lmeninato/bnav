@@ -7,18 +7,22 @@ use std::env;
 use std::path::{Path, PathBuf};
 use rocket::response::NamedFile;
 
+// use crate::tile as tile;
+use bnav::config as bnav_config;
+
 #[get("/")]
 fn index() -> io::Result<NamedFile> {
-  let page_directory_path = format!("{}/frontend/build", env!("CARGO_MANIFEST_DIR"));
-  NamedFile::open(Path::new(&page_directory_path).join("index.html"))
+  files(Path::new("index.html").to_path_buf())
 }
 
 #[get("/<file..>")]
 fn files(file: PathBuf) -> io::Result<NamedFile> {
-    let page_directory_path = format!("{}/frontend/build", env!("CARGO_MANIFEST_DIR"));
+    let page_directory_path = format!("{}/{}", env!("CARGO_MANIFEST_DIR"), bnav_config::FRONTEND_PATH);
     NamedFile::open(Path::new(&page_directory_path).join(file))
 }
 
 fn main() {
-    rocket::ignite().mount("/", routes![index, files]).launch();
+    rocket::ignite()
+        .mount("/", routes![index, files])
+        .launch();
 }
