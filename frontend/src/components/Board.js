@@ -1,13 +1,12 @@
 import React from 'react';
 
-import Tile, {TileTypes} from "./Tile";
-
+import Tile from "./Tile";
 
 class Board extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tiles: Array(props.rows).fill(Array(props.cols).fill(TileTypes['SEA']))
+            tiles: Array(props.rows).fill(Array(props.cols).fill('s'))
         };
     }
 
@@ -15,7 +14,7 @@ class Board extends React.Component {
         return (
             <div className="board-row">
             {
-                row.map((tile) => <Tile tileType={tile}/>)
+                row.map((tile) => <Tile tile_id={tile}/>)
             }
             </div>
         )
