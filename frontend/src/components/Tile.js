@@ -23,12 +23,16 @@ const TileTypes = {
 class Tile extends React.Component{
     constructor(props) {
         super(props);
+        this.row_index = props.row_index;
+        this.col_index = props.col_index;
 
         let first = props.tile_id[0];
-
+        // console.log('tile id:' + props.tile_id)
+        //console.log(first)
         let tile_info = TileTypes[first];
         this.type = tile_info['id'];
         this.image = tile_info['image'];
+        // console.log('type: ' + this.type + ' image: ' + this.image);
         this.flip = false; // flip clockwise to counter-clockwise
         this.set_transform_degree(first, props.tile_id)
     }
@@ -89,19 +93,19 @@ class Tile extends React.Component{
             height: '40px',
             width: '40px',
             pointerEvents: 'auto',
+            textAlign: 'center',
             // position: 'relative',
             cursor: 'pointer',
             transform: 'rotate(' + this.transform_degree + 'deg)'
         };
 
-        // console.log(this.image)
         return res;
     }
 
     render() {
         return (
             <div className="Tile" style={ this.style() }>
-                
+                {'(' + this.row_index + ',' +this.col_index + ')'} 
             </div>
         );
     }

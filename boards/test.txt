@@ -1,11 +1,11 @@
-s, s, s, cwtl, cwtr, s, s, r, wd, s, r, wu, wl
+wr, s, s, cwtl, cwtr, s, s, r, wd, s, r, wu, wl
 wr, wr, wu, cwbl, cwbr, wl, wl, r, wd, s, r, wu, wl
 wu, s, s, s, s, s, s, r, wd, s, r, wu, wl
 wu, s, s, s, s, s, s, r, wd, s, r, wu, wl
 s, s, s, s, s, s, s, r, wd, s, r, wu, wl
 s, s, s, s, s, s, s, r, wd, s, r, wu, wl
-s, s, s, s, s, s, s, r, wd, s, r, wu, wl
-s, s, s, s, s, s, s, r, wd, s, r, wu, wl
+s, s, s, wr, wl, s, s, r, wd, s, r, wu, wl
+s, s, s, wl, wr, s, s, r, wd, s, r, wu, wl
 s, s, s, s, s, s, s, r, wd, s, r, wu, wl
 s, s, s, s, s, s, s, xwtl, xwtr, s, s, r, wd
 s, s, s, s, wr, wr, wu, xwbl, xwbr, wl, wl, r, wd

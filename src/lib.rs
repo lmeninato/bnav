@@ -1,7 +1,7 @@
 pub mod config;
 
-mod game;
 pub mod board;
+mod game;
 mod tile;
 
 // use crate::tile as tile;
@@ -9,14 +9,10 @@ mod tile;
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-
-    // use crate::*;
-
     #[test]
     fn test_config() {
         let y = crate::config::FRONTEND_PATH;
-
+        
         assert_eq!(y, y);
     }
 }
