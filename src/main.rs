@@ -6,9 +6,14 @@ use std::io;
 use std::env; 
 use std::path::{Path, PathBuf};
 use rocket::response::NamedFile;
+// use rocket::response::content;
+use rocket_contrib::json::Json;
 
 // use crate::tile as tile;
 use bnav::config as bnav_config;
+use bnav::board::Board;
+use bnav::board as board;
+
 
 #[get("/")]
 fn index() -> io::Result<NamedFile> {
@@ -21,8 +26,14 @@ fn files(file: PathBuf) -> io::Result<NamedFile> {
     NamedFile::open(Path::new(&page_directory_path).join(file))
 }
 
+#[get("/board")]
+fn board() -> Json<Board<'static>> {
+  let board = board::read_board("boards/test.txt");
+  Json(board)
+}
+
 fn main() {
     rocket::ignite()
-        .mount("/", routes![index, files])
+        .mount("/", routes![index, files, board])
         .launch();
 }
