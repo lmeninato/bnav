@@ -1,6 +1,6 @@
 pub mod config;
-
 pub mod board;
+pub mod player;
 mod game;
 mod tile;
 

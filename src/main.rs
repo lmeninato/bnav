@@ -58,6 +58,11 @@ fn board() -> Json<Board<'static>> {
     Json(board)
 }
 
+// #[post("/api/moves/<player_id>")]
+// fn get_moves(player_id: u32) {
+
+// }
+
 fn main() {
     rocket::ignite()
         .attach(CORS)

@@ -1,5 +1,6 @@
 use super::tile;
 use super::tile::Tile;
+use super::player::Player;
 
 use serde::{Deserialize, Serialize};
 use std::fs;
@@ -11,12 +12,17 @@ pub struct Board<'a> {
     pub id: u32,
     pub file: &'a str,
     pub board: Box<Vec<Vec<Tile>>>,
+    pub players: Box<Vec<Player>>,
 }
 
 pub fn read_board(path: &str) -> Board {
     let contents = fs::read_to_string(path).expect("Something went wrong reading the file");
 
     let mut board: Box<Vec<Vec<Tile>>> = Box::new(Vec::new());
+    let mut players: Box<Vec<Player>> = Box::new(Vec::new());
+
+    let player1: Player = Player::new(1, 0, 0, tile::Direction::Up);
+    players.push(player1);
 
     for line in contents.lines() {
         let row = line
@@ -32,6 +38,7 @@ pub fn read_board(path: &str) -> Board {
         id: 1,
         file: path,
         board: board,
+        players: players
     }
 }
 
@@ -39,6 +46,6 @@ pub fn read_board(path: &str) -> Board {
 fn test_read_board() {
     let board = read_board("boards/test.txt");
 
-    assert_eq!(board.board[0][0].id, String::from("wr"));
-    assert_eq!(board.board[0][3].id, String::from("cwtl"));
+    assert_eq!(board.board[0][0].id, String::from("s"));
+    assert_eq!(board.board[0][3].id, String::from("s"));
 }
