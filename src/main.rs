@@ -15,9 +15,9 @@ use bnav::board;
 use bnav::board::Board;
 use bnav::config as bnav_config;
 
+use rocket::fairing::{Fairing, Info, Kind};
 use rocket::http::Header;
 use rocket::{Request, Response};
-use rocket::fairing::{Fairing, Info, Kind};
 
 pub struct CORS;
 
@@ -25,13 +25,16 @@ impl Fairing for CORS {
     fn info(&self) -> Info {
         Info {
             name: "Add CORS headers to responses",
-            kind: Kind::Response
+            kind: Kind::Response,
         }
     }
 
     fn on_response(&self, _request: &Request, response: &mut Response) {
         response.set_header(Header::new("Access-Control-Allow-Origin", "*"));
-        response.set_header(Header::new("Access-Control-Allow-Methods", "POST, GET, PATCH, OPTIONS"));
+        response.set_header(Header::new(
+            "Access-Control-Allow-Methods",
+            "POST, GET, PATCH, OPTIONS",
+        ));
         response.set_header(Header::new("Access-Control-Allow-Headers", "*"));
         response.set_header(Header::new("Access-Control-Allow-Credentials", "true"));
     }
@@ -57,11 +60,6 @@ fn board() -> Json<Board<'static>> {
     let board = board::read_board("boards/test.txt");
     Json(board)
 }
-
-// #[post("/api/moves/<player_id>")]
-// fn get_moves(player_id: u32) {
-
-// }
 
 fn main() {
     rocket::ignite()

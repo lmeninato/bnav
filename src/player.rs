@@ -16,14 +16,13 @@ pub struct Player {
 impl Player {
     pub fn new(id: u32, loc_x: u32, loc_y: u32, direction: Direction) -> Player {
         Player {
-            id: id, 
-            health: 10, 
-            dmg_taken: 0, 
-            dmg: 1, 
+            id: id,
+            health: 10,
+            dmg_taken: 0,
+            dmg: 1,
             loc_x: loc_x,
             loc_y: loc_y,
-            direction: direction
+            direction: direction,
         }
     }
 }
-

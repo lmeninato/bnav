@@ -1,7 +1,7 @@
-pub mod config;
 pub mod board;
-pub mod player;
+pub mod config;
 mod game;
+pub mod player;
 mod tile;
 
 // use crate::tile as tile;
@@ -12,7 +12,7 @@ mod tests {
     #[test]
     fn test_config() {
         let y = crate::config::FRONTEND_PATH;
-        
+
         assert_eq!(y, y);
     }
 }

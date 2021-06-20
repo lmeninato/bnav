@@ -10,7 +10,7 @@ function App() {
     <div className="App" style={{ textAlign: "center" }}>
       <h1 className="start-text">Welcome to Battle Navigation</h1>
       <Board />
-      <Player startX={0} startY={0} direction={"LEFT"}/>
+      <Player startX={0} startY={0} direction={"LEFT"} />
     </div>
   );
 }

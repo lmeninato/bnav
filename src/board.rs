@@ -1,6 +1,6 @@
+use super::player::Player;
 use super::tile;
 use super::tile::Tile;
-use super::player::Player;
 
 use serde::{Deserialize, Serialize};
 use std::fs;
@@ -38,7 +38,7 @@ pub fn read_board(path: &str) -> Board {
         id: 1,
         file: path,
         board: board,
-        players: players
+        players: players,
     }
 }
 
