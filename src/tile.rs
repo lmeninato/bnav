@@ -1,23 +1,22 @@
 use serde::{Deserialize, Serialize};
 use std::fmt;
 
-#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Hash, Eq)]
 pub enum Direction {
     Up,
-    Down,
     Left,
+    Down,
     Right,
-    None,
 }
 
-#[derive(Clone, Copy, Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Copy, Clone)]
 pub struct WhirlTile {
-    clock_wise: bool,
-    top: bool,
-    left: bool,
+    pub clock_wise: bool,
+    pub top: bool,
+    pub left: bool,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Copy, Clone)]
 pub enum TileType {
     Whirl(WhirlTile),
     Rock,
@@ -25,60 +24,60 @@ pub enum TileType {
     Sea,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct Tile {
     pub tile: TileType,
     pub id: String,
-    pub direction: Direction,
+    pub direction: Option<Direction>,
 }
 
 pub trait GetDirection {
-    fn get_direction(&self) -> Direction;
+    fn get_direction(&self) -> Option<Direction>;
 }
 
 impl GetDirection for WhirlTile {
-    fn get_direction(&self) -> Direction {
+    fn get_direction(&self) -> Option<Direction> {
         match self {
             WhirlTile {
                 clock_wise: true,
                 top: true,
                 left: true,
-            } => Direction::Right,
+            } => Some(Direction::Right),
             WhirlTile {
                 clock_wise: true,
                 top: true,
                 left: false,
-            } => Direction::Down,
+            } => Some(Direction::Down),
             WhirlTile {
                 clock_wise: true,
                 top: false,
                 left: true,
-            } => Direction::Up,
+            } => Some(Direction::Up),
             WhirlTile {
                 clock_wise: true,
                 top: false,
                 left: false,
-            } => Direction::Left,
+            } => Some(Direction::Left),
             WhirlTile {
                 clock_wise: false,
                 top: true,
                 left: true,
-            } => Direction::Down,
+            } => Some(Direction::Down),
             WhirlTile {
                 clock_wise: false,
                 top: true,
                 left: false,
-            } => Direction::Left,
+            } => Some(Direction::Left),
             WhirlTile {
                 clock_wise: false,
                 top: false,
                 left: true,
-            } => Direction::Right,
+            } => Some(Direction::Right),
             WhirlTile {
                 clock_wise: false,
                 top: false,
                 left: false,
-            } => Direction::Up,
+            } => Some(Direction::Up),
         }
     }
 }
@@ -103,13 +102,13 @@ pub fn to_tile(s: &mut String) -> Tile {
     let first = &s[..1];
 
     match first {
-        "s" => Tile {tile: TileType::Sea, id: s.clone(), direction: Direction::None}, // sea tile
-        "r" => Tile {tile: TileType::Rock, id: s.clone(), direction: Direction::None}, // rock tile
+        "s" => Tile {tile: TileType::Sea, id: s.clone(), direction: None}, // sea tile
+        "r" => Tile {tile: TileType::Rock, id: s.clone(), direction: None}, // rock tile
         "w" => match &s[1..2] { // wind tile
-            "u" => Tile {tile: TileType::Wind(Direction::Up), id: s.clone(), direction: Direction::Up}, 
-            "d" => Tile {tile: TileType::Wind(Direction::Down), id: s.clone(), direction: Direction::Down}, 
-            "l" => Tile {tile: TileType::Wind(Direction::Left), id: s.clone(), direction: Direction::Left}, 
-            "r" => Tile {tile: TileType::Wind(Direction::Right), id: s.clone(), direction: Direction::Right},
+            "u" => Tile {tile: TileType::Wind(Direction::Up), id: s.clone(), direction: Some(Direction::Up)}, 
+            "d" => Tile {tile: TileType::Wind(Direction::Down), id: s.clone(), direction: Some(Direction::Down)}, 
+            "l" => Tile {tile: TileType::Wind(Direction::Left), id: s.clone(), direction: Some(Direction::Left)}, 
+            "r" => Tile {tile: TileType::Wind(Direction::Right), id: s.clone(), direction: Some(Direction::Right)},
             _ => panic!("should not reach: error parsing wind tile: s: {}, direction: {}", s, &s[1..1])
         },
         "c" => match &s[2..] { // clockwise whirl tile                    
@@ -127,8 +126,8 @@ pub fn to_tile(s: &mut String) -> Tile {
             _ => panic!("should not reach: error parsing counter-clockwise whirl tile: s: {}, direction: {}", s, &s[2..])
         },
         _ => {
-            println!("Warning, did not match tile string input: {}", s);
-            Tile {tile: TileType::Sea, id: s.clone(), direction: Direction::None}
+            panic!("Warning, did not match tile string input: {}", s);
+            // Tile {tile: TileType::Sea, id: s.clone(), direction: Direction::None}
         }
     }
 }
@@ -146,14 +145,16 @@ impl fmt::Debug for Tile {
 
 #[test]
 fn test_tiles() {
+    let dir = Direction::Up;
+
     let x = Tile {
         tile: TileType::Sea,
         id: String::from("s"),
-        direction: Direction::None,
+        direction: Copy(dir),
     };
 
     assert_eq!(x.id, String::from("s"));
-    assert_eq!(x.direction, Direction::None);
+    assert_eq!(x.direction, dir);
 
     let mut tile_id = String::from("cwtl");
     let tile = to_tile(&mut tile_id);

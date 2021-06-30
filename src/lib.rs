@@ -1,8 +1,8 @@
 pub mod board;
 pub mod config;
-mod game;
+pub mod game;
 pub mod player;
-mod tile;
+pub mod tile;
 
 // use crate::tile as tile;
 // use crate::config as bnav_config;

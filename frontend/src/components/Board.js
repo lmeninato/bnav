@@ -14,9 +14,7 @@ class Board extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://127.0.0.1:8080/api/board", {
-      crossdomain: true,
-    })
+    fetch("/api/board")
       .then((response) => response.json())
       .then((data) => ({ board: data["board"], players: data["players"] }))
       .then((data) => {

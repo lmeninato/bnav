@@ -15,30 +15,30 @@ use bnav::board;
 use bnav::board::Board;
 use bnav::config as bnav_config;
 
-use rocket::fairing::{Fairing, Info, Kind};
-use rocket::http::Header;
-use rocket::{Request, Response};
+// use rocket::fairing::{Fairing, Info, Kind};
+// use rocket::http::Header;
+// use rocket::{Request, Response};
 
-pub struct CORS;
+// pub struct CORS;
 
-impl Fairing for CORS {
-    fn info(&self) -> Info {
-        Info {
-            name: "Add CORS headers to responses",
-            kind: Kind::Response,
-        }
-    }
+// impl Fairing for CORS {
+//     fn info(&self) -> Info {
+//         Info {
+//             name: "Add CORS headers to responses",
+//             kind: Kind::Response,
+//         }
+//     }
 
-    fn on_response(&self, _request: &Request, response: &mut Response) {
-        response.set_header(Header::new("Access-Control-Allow-Origin", "*"));
-        response.set_header(Header::new(
-            "Access-Control-Allow-Methods",
-            "POST, GET, PATCH, OPTIONS",
-        ));
-        response.set_header(Header::new("Access-Control-Allow-Headers", "*"));
-        response.set_header(Header::new("Access-Control-Allow-Credentials", "true"));
-    }
-}
+//     fn on_response(&self, _request: &Request, response: &mut Response) {
+//         response.set_header(Header::new("Access-Control-Allow-Origin", "*"));
+//         response.set_header(Header::new(
+//             "Access-Control-Allow-Methods",
+//             "POST, GET, PATCH, OPTIONS",
+//         ));
+//         response.set_header(Header::new("Access-Control-Allow-Headers", "*"));
+//         response.set_header(Header::new("Access-Control-Allow-Credentials", "true"));
+//     }
+// }
 
 #[get("/")]
 fn index() -> io::Result<NamedFile> {
@@ -56,14 +56,13 @@ fn files(file: PathBuf) -> io::Result<NamedFile> {
 }
 
 #[get("/api/board")]
-fn board() -> Json<Board<'static>> {
+fn board() -> Json<Board> {
     let board = board::read_board("boards/test.txt");
     Json(board)
 }
 
 fn main() {
     rocket::ignite()
-        .attach(CORS)
         .mount("/", routes![index, files, board])
         .launch();
 }

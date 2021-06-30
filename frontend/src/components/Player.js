@@ -34,9 +34,11 @@ class Player extends React.Component {
     super(props);
 
     this.images = shipImages;
+    
+    // angles of sprites
     this.angles = Array.apply(null, { length: 16 }).map(
       (_, i) => (360 / 16) * i
-    ); // angles of sprites
+    ); 
 
     this.state = {
       locX: props.startX,
@@ -47,21 +49,43 @@ class Player extends React.Component {
 
   style() {
     let res = {
-      height: "40px",
-      width: "40px",
-      margin: "auto",
+    //   height: "50px",
+    //   width: "50px",
+    //   margin: "auto",
+    border: 0,
+
     };
 
     return res;
   }
 
+//   getBackground() {
+//     const ship_dir = ship_direction[this.state.direction];
+//     const bg = `url(${this.images}) ${ship_dir["offsetX"]}px ${ship_dir["offsetY"]}px`;
+//     console.log(bg);
+//     return bg;
+//   }
+
   spriteStyle() {
     let ship_dir = ship_direction[this.state.direction];
 
+    // const bg = `url(${this.images}) ${ship_dir["offsetX"]}px ${ship_dir["offsetY"]}px`;
+    // console.log(bg);
     let res = {
-      background: `url(${this.images}) no-repeat ${ship_dir["offsetX"]}px ${ship_dir["offsetY"]}px`,
+      background: `url(${this.images}) ${ship_dir["offsetX"]}px ${ship_dir["offsetY"]}px`,
+      backgroundRepeat: "no-repeat",
+      backgroundColor: "transparent",
+      display: "inline-block",
       width: `${ship_dir["width"]}px`,
       height: `${ship_dir["height"]}px`,
+      transform: "scale(0.8,0.8)",
+      position: "relative",
+      border: "none",
+      //margin: "auto",
+      //top: "50%",
+      //left: "50%",
+      //width: "100%",
+      //height: "auto",
     };
 
     return res;
@@ -69,9 +93,7 @@ class Player extends React.Component {
 
   render() {
     return (
-      <div className="Player" style={this.style()}>
-        <img style={this.spriteStyle()}></img>
-      </div>
+      <div className="Player" style={this.spriteStyle()}></div>
     );
   }
 }

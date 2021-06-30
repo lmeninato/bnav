@@ -113,18 +113,15 @@ class Tile extends React.Component {
     let res = {
       backgroundImage: this.image,
       border: "1px solid",
-      height: "40px",
-      width: "40px",
+      height: "50px",
+      width: "50px",
       pointerEvents: "auto",
       textAlign: "center",
       cursor: "pointer",
       transform:
-        "rotate(" +
-        this.transform_degree +
-        "deg)" +
-        " scaleX(" +
-        this.flip +
-        ")",
+        "rotate(" + this.transform_degree + "deg)" +
+        " scaleX(" + this.flip + ")",
+      position: "relative",
     };
 
     return res;
